@@ -1,12 +1,16 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+@Entity()
+export class Post {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
+  @Column()
+  title: string;
+
+  @Column()
+  content: string;
+
+  @Column()
+  authorId: string;
 }
