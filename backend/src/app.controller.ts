@@ -1,16 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Controller, Get } from '@nestjs/common';
 
-@Entity()
-export class Post {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column()
-  title: string;
-
-  @Column()
-  content: string;
-
-  @Column()
-  authorId: string;
+@Controller()
+export class AppController {
+  @Get()
+  getHello(): string {
+    return 'Welcome to my NestJS application!';
+  }
 }
