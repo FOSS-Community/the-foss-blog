@@ -1,27 +1,29 @@
-// src/posts/posts.service.ts
-
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Post } from './post.entity';
+import { SupabaseService } from '../supabase/supabase.service';
 
 @Injectable()
 export class PostsService {
-  constructor(
-    @InjectRepository(Post)
-    private postsRepository: Repository<Post>,
-  ) {}
+  constructor(private readonly supabaseService: SupabaseService) {}
 
   async createPost(
     title: string,
     content: string,
     authorId: string,
-  ): Promise<Post> {
-    const newPost = this.postsRepository.create({ title, content, authorId });
-    return this.postsRepository.save(newPost);
+  ): Promise<any> {
+    const { data, error } = await this.supabaseService.supabase
+      .from('posts')
+      .insert([{ title, content, authorId }]);
+
+    if (error) throw new Error(error.message);
+    return data;
   }
 
-  async findAll(): Promise<Post[]> {
-    return this.postsRepository.find();
+  async findAll(): Promise<any[]> {
+    const { data, error } = await this.supabaseService.supabase
+      .from('posts')
+      .select('*');
+
+    if (error) throw new Error(error.message);
+    return data;
   }
 }
