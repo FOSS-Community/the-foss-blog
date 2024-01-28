@@ -1,5 +1,6 @@
 import { Controller, Get, Post as HttpPost, Body } from '@nestjs/common';
 import { PostsService } from './posts.service';
+import { CreatePostDTO } from './dto/create-post.dto'
 
 @Controller('posts')
 export class PostsController {
@@ -11,10 +12,7 @@ export class PostsController {
   }
 
   @HttpPost()
-  async create(
-    @Body() createPostDto: { title: string; content: string; authorId: string },
-  ): Promise<any> {
-    const { title, content, authorId } = createPostDto;
-    return this.postsService.createPost(title, content, authorId);
+  async create(@Body() createPostDto: CreatePostDTO): Promise<any> {
+    return this.postsService.createPost(createPostDto);
   }
 }
