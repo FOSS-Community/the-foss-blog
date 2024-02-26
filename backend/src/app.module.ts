@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { PostsModule } from './posts/posts.module'; // Import PostsModule
 import { SupabaseService } from './supabase/supabase.service';
 import { SharedModule } from './shared.module';
+import { CommentsModule } from './comments/comments.module';
+import { SupabaseModule } from './supabase/supabase.module';
 
 @Module({
   imports: [
@@ -12,7 +14,9 @@ import { SharedModule } from './shared.module';
       isGlobal: true, // Make ConfigModule global
     }),
     PostsModule,
-    SharedModule, 
+    SharedModule,
+    CommentsModule,
+    SupabaseModule, 
   ],
   controllers: [AppController],
   providers: [AppService, SupabaseService],
