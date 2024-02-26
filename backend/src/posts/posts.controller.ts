@@ -1,8 +1,10 @@
-import { Controller, Get, Post as HttpPost, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { PostsService } from './posts.service';
-import { CreatePostDTO } from './dto/create-post.dto'
+import { CreatePostDTO } from './dto/create-post.dto'; 
+import { AuthGuard } from '@nestjs/passport';
 
-@Controller('Posts')
+@UseGuards(AuthGuard('jwt'))
+@Controller('posts') 
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
@@ -11,8 +13,8 @@ export class PostsController {
     return this.postsService.findAll();
   }
 
-  @HttpPost()
-  async create(@Body() createPostDto: CreatePostDTO): Promise<any> {
+  @Post() 
+  async create(@Body() createPostDto: CreatePostDTO): Promise<any> { 
     return this.postsService.createPost(createPostDto);
   }
 }
